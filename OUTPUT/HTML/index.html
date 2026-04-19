@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 KMLE QUIZ ARCHIVE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* === Achilles / Purple palette === */
+      --bg-primary: #0b0614;
+      --bg-card: #15102a;
+      --bg-card-hover: #1f1838;
+      --accent-violet: #a78bfa;
+      --accent-violet-dim: rgba(167, 139, 250, 0.12);
+      --accent-purple: #c084fc;
+      --accent-fuchsia: #e879f9;
+      --accent-pink: #f472b6;
+      --accent-indigo: #818cf8;
+      --accent-light: #d8b4fe;
+      --accent-rose: #fb7185;
+      --text-primary: #f3e8ff;
+      --text-secondary: #c4b5fd;
+      --text-dim: #6b5b95;
+      --border: rgba(167, 139, 250, 0.1);
+      --radius: 16px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* === BACKGROUND ATMOSPHERE === */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -40%; left: -20%;
+      width: 80vw; height: 80vw;
+      background: radial-gradient(circle, rgba(167, 139, 250, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -30%; right: -10%;
+      width: 60vw; height: 60vw;
+      background: radial-gradient(circle, rgba(232, 121, 249, 0.05) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ========================================= */
+    /* ============ PASSWORD LOCK ============== */
+    /* ========================================= */
+    .lock-screen {
+      position: fixed;
+      inset: 0;
+      background: #0b0614;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .lock-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    /* Big typographic background (inspired by Achilles poster) */
+    .lock-bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .lock-bg-text {
+      position: absolute;
+      font-family: 'DM Serif Display', serif;
+      font-weight: 800;
+      font-size: clamp(6rem, 18vw, 14rem);
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+      color: rgba(167, 139, 250, 0.08);
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .lock-bg-text.t1 { top: 4%; left: -2%; }
+    .lock-bg-text.t2 { top: 32%; right: -5%; color: rgba(232, 121, 249, 0.07); }
+    .lock-bg-text.t3 { bottom: 6%; left: -3%; color: rgba(167, 139, 250, 0.07); }
+
+    .lock-grain {
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(rgba(167, 139, 250, 0.15) 1px, transparent 1px);
+      background-size: 30px 30px;
+      opacity: 0.3;
+      mask-image: radial-gradient(circle at center, black 0%, transparent 70%);
+    }
+
+    .lock-card {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 420px;
+      background: rgba(21, 16, 42, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(167, 139, 250, 0.2);
+      border-radius: 20px;
+      padding: 44px 36px;
+      text-align: center;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    }
+
+    .lock-tag {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--accent-violet);
+      background: var(--accent-violet-dim);
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 22px;
+    }
+
+    .lock-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 30px;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .lock-title span {
+      color: var(--accent-violet);
+      font-style: italic;
+    }
+
+    .lock-sub {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-secondary);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .lock-input-wrap {
+      position: relative;
+      margin-bottom: 14px;
+    }
+
+    .lock-input {
+      width: 100%;
+      padding: 14px 18px;
+      background: rgba(11, 6, 20, 0.6);
+      border: 1.5px solid rgba(167, 139, 250, 0.25);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 15px;
+      letter-spacing: 4px;
+      text-align: center;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .lock-input::placeholder {
+      color: var(--text-dim);
+      letter-spacing: 2px;
+    }
+
+    .lock-input:focus {
+      border-color: var(--accent-violet);
+      box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.15);
+    }
+
+    .lock-input.shake {
+      animation: shake 0.4s ease;
+      border-color: var(--accent-rose);
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+
+    .lock-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent-violet);
+      color: #0b0614;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .lock-btn:hover {
+      background: var(--accent-light);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(167, 139, 250, 0.35);
+    }
+
+    .lock-err {
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--accent-rose);
+      min-height: 16px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .lock-err.visible { opacity: 1; }
+
+    .lock-footer {
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(167, 139, 250, 0.1);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: var(--text-dim);
+    }
+
+    /* Hide main content until unlocked */
+    body.locked .container { display: none; }
+
+    /* ========================================= */
+    /* ============== HEADER =================== */
+    /* ========================================= */
+    header {
+      padding: 80px 0 20px;
+      text-align: center;
+    }
+
+    .tag {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--accent-violet);
+      background: var(--accent-violet-dim);
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+      animation: fadeDown 0.6s ease-out;
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      font-weight: 400;
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+      animation: fadeDown 0.6s ease-out 0.1s both;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent-violet);
+    }
+
+    .subtitle {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--text-secondary);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.7;
+      animation: fadeDown 0.6s ease-out 0.2s both;
+    }
+
+    /* === STATS BAR === */
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 32px 0;
+      margin: 32px 0 12px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      animation: fadeDown 0.6s ease-out 0.3s both;
+    }
+
+    .stat { text-align: center; }
+
+    .stat-value {
+      font-family: 'DM Serif Display', serif;
+      font-size: 28px;
+      color: var(--accent-violet);
+    }
+
+    .stat-label {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    /* === FILTER / SEARCH === */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 36px 0 24px;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fadeDown 0.6s ease-out 0.35s both;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      max-width: 320px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 16px 12px 42px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-box input::placeholder { color: var(--text-dim); }
+    .search-box input:focus { border-color: rgba(167, 139, 250, 0.35); }
+
+    .search-box svg {
+      position: absolute;
+      left: 14px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+    }
+
+    .filter-btns {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 8px 18px;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      color: var(--accent-violet);
+      border-color: rgba(167, 139, 250, 0.35);
+      background: var(--accent-violet-dim);
+    }
+
+    /* === QUIZ GRID === */
+    .quiz-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+      padding-bottom: 100px;
+    }
+
+    .quiz-card {
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      animation: fadeUp 0.5s ease-out both;
+    }
+
+    .quiz-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--card-accent, var(--accent-violet));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .quiz-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(167, 139, 250, 0.25);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .quiz-card:hover::before { opacity: 1; }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .card-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      background: var(--card-accent-dim, var(--accent-violet-dim));
+      flex-shrink: 0;
+    }
+
+    .card-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--card-accent, var(--accent-violet));
+      background: var(--card-accent-dim, var(--accent-violet-dim));
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .card-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-dim);
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .card-meta span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .arrow-icon {
+      position: absolute;
+      bottom: 28px; right: 28px;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--card-accent-dim, var(--accent-violet-dim));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: all 0.3s;
+    }
+
+    .quiz-card:hover .arrow-icon {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .arrow-icon svg {
+      color: var(--card-accent, var(--accent-violet));
+    }
+
+    /* === EMPTY STATE === */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-dim);
+      display: none;
+    }
+
+    .empty-state.visible { display: block; }
+
+    /* === FOOTER === */
+    footer {
+      text-align: center;
+      padding: 40px 0;
+      font-size: 12px;
+      color: var(--text-dim);
+      border-top: 1px solid var(--border);
+    }
+
+    /* === ANIMATIONS === */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* stagger cards */
+    .quiz-card:nth-child(1)  { animation-delay: 0.40s; }
+    .quiz-card:nth-child(2)  { animation-delay: 0.45s; }
+    .quiz-card:nth-child(3)  { animation-delay: 0.50s; }
+    .quiz-card:nth-child(4)  { animation-delay: 0.55s; }
+    .quiz-card:nth-child(5)  { animation-delay: 0.60s; }
+    .quiz-card:nth-child(6)  { animation-delay: 0.65s; }
+    .quiz-card:nth-child(7)  { animation-delay: 0.70s; }
+    .quiz-card:nth-child(8)  { animation-delay: 0.75s; }
+    .quiz-card:nth-child(9)  { animation-delay: 0.80s; }
+    .quiz-card:nth-child(10) { animation-delay: 0.85s; }
+    .quiz-card:nth-child(11) { animation-delay: 0.90s; }
+    .quiz-card:nth-child(12) { animation-delay: 0.95s; }
+    .quiz-card:nth-child(13) { animation-delay: 1.00s; }
+    .quiz-card:nth-child(14) { animation-delay: 1.05s; }
+    .quiz-card:nth-child(15) { animation-delay: 1.10s; }
+    .quiz-card:nth-child(16) { animation-delay: 1.15s; }
+    .quiz-card:nth-child(17) { animation-delay: 1.20s; }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 640px) {
+      header { padding: 48px 0 12px; }
+      .stats-bar { gap: 24px; }
+      .quiz-grid { grid-template-columns: 1fr; }
+      .toolbar { flex-direction: column; align-items: stretch; }
+      .search-box { max-width: 100%; }
+      .filter-btns { justify-content: center; }
+      .lock-card { padding: 36px 26px; }
+      .lock-title { font-size: 26px; }
+    }
+  </style>
+</head>
+<body class="locked">
+
+  <!-- ============================================= -->
+  <!-- ============ PASSWORD LOCK SCREEN =========== -->
+  <!-- ============================================= -->
+  <div class="lock-screen" id="lockScreen">
+    <div class="lock-bg" aria-hidden="true">
+      <div class="lock-bg-text t1">KMLE</div>
+      <div class="lock-bg-text t2">2026</div>
+      <div class="lock-bg-text t3">ARCHIVE</div>
+      <div class="lock-grain"></div>
+    </div>
+
+    <div class="lock-card">
+      <div class="lock-tag">🔐 Access Required</div>
+      <div class="lock-title">2026 <span>KMLE</span><br>Quiz Archive</div>
+      <p class="lock-sub">이 아카이브는 비공개입니다.<br>접근하려면 비밀번호를 입력하세요.</p>
+
+      <div class="lock-input-wrap">
+        <input
+          type="password"
+          class="lock-input"
+          id="lockInput"
+          placeholder="• • • • •"
+          autocomplete="off"
+          spellcheck="false"
+          maxlength="32"
+        >
+      </div>
+
+      <button class="lock-btn" id="lockBtn">ENTER</button>
+
+      <div class="lock-err" id="lockErr">비밀번호가 올바르지 않습니다.</div>
+
+      <div class="lock-footer">MISTARFISH × 2026 · PRIVATE</div>
+    </div>
+  </div>
+
+  <!-- ============================================= -->
+  <!-- ================ MAIN CONTENT =============== -->
+  <!-- ============================================= -->
+  <div class="container">
+    <!-- ===== HEADER ===== -->
+    <header>
+      <div class="tag">📚 KMLE Study Archive</div>
+      <h1>2026 <em>KMLE</em> Quiz Archive</h1>
+      <p class="subtitle">과목별 KMLE 문제 아카이브입니다.<br>카드를 클릭하면 해당 과목 퀴즈 페이지로 이동합니다.</p>
+    </header>
+
+    <!-- ===== STATS (자동 계산됨) ===== -->
+    <div class="stats-bar">
+      <div class="stat">
+        <div class="stat-value" id="totalQuizzes">0</div>
+        <div class="stat-label">Total Quizzes</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="totalSubjects">0</div>
+        <div class="stat-label">Subjects</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="totalQuestions">0</div>
+        <div class="stat-label">Questions</div>
+      </div>
+    </div>
+
+    <!-- ===== TOOLBAR ===== -->
+    <div class="toolbar">
+      <div class="search-box">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="searchInput" placeholder="퀴즈 검색...">
+      </div>
+      <div class="filter-btns" id="filterBtns">
+        <button class="filter-btn active" data-filter="all">전체</button>
+        <!-- 카테고리 버튼은 자동 생성됩니다 -->
+      </div>
+    </div>
+
+    <!-- ===== QUIZ CARDS ===== -->
+    <div class="quiz-grid" id="quizGrid">
+
+      <!--
+      ╔══════════════════════════════════════════════════════════════╗
+      ║  🔽 새 퀴즈를 추가하려면 아래 템플릿을 복사해서 붙여넣으세요  🔽  ║
+      ╠══════════════════════════════════════════════════════════════╣
+      ║  <a class="quiz-card" href="XX.html"                         ║
+      ║     data-subject="과목명" data-questions="문제수"              ║
+      ║     style="--card-accent: #a78bfa; --card-accent-dim: rgba(167,139,250,0.12);"> ║
+      ║    <div class="card-header">                                 ║
+      ║      <div class="card-icon">🫀</div>                         ║
+      ║      <span class="card-badge">과목명</span>                   ║
+      ║    </div>                                                    ║
+      ║    <div class="card-num">QUIZ · XX</div>                     ║
+      ║    <div class="card-title">과목명 KMLE</div>                  ║
+      ║    <div class="card-desc">2026 KMLE 과목명 문제 모음</div>     ║
+      ║    <div class="card-meta">                                   ║
+      ║      <span>📝 XX문제</span><span>📅 2026-04-XX</span>         ║
+      ║    </div>                                                    ║
+      ║    <div class="arrow-icon">...</div>                         ║
+      ║  </a>                                                        ║
+      ╚══════════════════════════════════════════════════════════════╝
+      -->
+
+      <!-- 01. 순환기 -->
+      <a class="quiz-card" href="01.html"
+         data-subject="순환기" data-questions="0"
+         style="--card-accent: #f472b6; --card-accent-dim: rgba(244,114,182,0.14);">
+        <div class="card-header">
+          <div class="card-icon">🫀</div>
+          <span class="card-badge">순환기</span>
+        </div>
+        <div class="card-num">QUIZ · 01</div>
+        <div class="card-title">순환기 KMLE</div>
+        <div class="card-desc">2026 KMLE 순환기 문제 모음</div>
+        <div class="card-meta">
+          <span>📝 KMLE</span>
+          <span>📅 2026</span>
+        </div>
+        <div class="arrow-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- 02. 호흡기 -->
+      <a class="quiz-card" href="02.html"
+         data-subject="호흡기" data-questions="0"
+         style="--card-accent: #818cf8; --card-accent-dim: rgba(129,140,248,0.14);">
+        <div class="card-header">
+          <div class="card-icon">🫁</div>
+          <span class="card-badge">호흡기</span>
+        </div>
+        <div class="card-num">QUIZ · 02</div>
+        <div class="card-title">호흡기 KMLE</div>
+        <div class="card-desc">2026 KMLE 호흡기 문제 모음</div>
+        <div class="card-meta">
+          <span>📝 KMLE</span>
+          <span>📅 2026</span>
+        </div>
+        <div class="arrow-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- 03. 소화기 -->
+      <a class="quiz-card" href="03.html"
+         data-subject="소화기" data-questions="0"
+         style="--card-accent: #c084fc; --card-accent-dim: rgba(192,132,252,0.14);">
+        <div class="card-header">
+          <div class="card-icon">🍽️</div>
+          <span class="card-badge">소화기</span>
+        </div>
+        <div class="card-num">QUIZ · 03</div>
+        <div class="card-title">소화기 KMLE</div>
+        <div class="card-desc">2026 KMLE 소화기 문제 모음</div>
+        <div class="card-meta">
+          <span>📝 KMLE</span>
+          <span>📅 2026</span>
+        </div>
+        <div class="arrow-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- 04. 신장 감염 -->
+      <a class="quiz-card" href="04.html"
+         data-subject="신장 감염" data-questions="0"
+         style="--card-accent: #a78bfa; --card-accent-dim: rgba(167,139,250,0.14);">
+        <div class="card-header">
+          <div class="card-icon">💧</div>
+          <span class="card-badge">신장 · 감염</span>
+        </div>
+        <div class="card-num">QUIZ · 04</div>
+        <div class="card-title">신장 감염 KMLE</div>
+        <div class="card-desc">2026 KMLE 신장 · 감염 문제 모음</div>
+        <div class="card-meta">
+          <span>📝 KMLE</span>
+          <span>📅 2026</span>
+        </div>
+        <div class="arrow-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- 05. 내분비 알레르기 -->
+      <a class="quiz-card" href="05.html"
+         data-subject="내분비 알레르기" data-questions="0"
+         style="--card-accent: #e879f9; --card-accent-dim: rgba(232,121,249,0.14);">
+        <div class="card-header">
+          <div class="card-icon">🧪</div>
+          <span class="card-badge">내분비 · 알레르기</span>
+        </div>
+        <div class="card-num">QUIZ · 05</div>
+        <div class="card-title">내분비 알레르기 KMLE</div>
+        <div class="card-desc">2026 KMLE 내분비 · 알레르기 문제 모음</div>
+        <div class="card-meta">
+          <span>📝 KMLE</span>
+          <span>📅 2026</span>
+        </div>
+        <div class="arrow-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- 06. 혈액 종양 류마티스 -->
+      <a class="quiz-card" href="06.html"
+         data-subject="혈액 종양 류마티스" data-questions="0"
+         style="--card-accent: #fb7185; --card-accent-dim: rgba(251,113,133,0.14);">
+        <div class="card-header">
+          <div class="card-icon">🩸</div>
+          <span class="card-badge">혈액 · 종양 · 류마</span>
+        </div>
+        <div class="card-num">QUIZ · 06</div>
+        <div class="card-title">혈액 종양 류마티스 KMLE</div>
+        <div class="card-desc">2026 KMLE 혈액 · 종양 · 류마티스 문제 모음</div>
+        <div class="card-meta">
+          <span>📝 KMLE</span>
+          <span>📅 2026</span>
+        </div>
+        <div class="arrow-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- 07. 외과 총론 -->
+      <a class="quiz-card" href="07.html"
+         data-subject="외과 총론" data-questions="0"
+         style="--card-accent: #a78bfa; --card-accent-dim: rgba(167,139,250,0.14);">
+        <div class="card-header">
+          <div class="card-icon">⚕️</div>
+          <span class="card-badge">외과 총론</span>
+        </div>
+        <div class="card-num">QUIZ · 07</div>
+        <div class="card-title">외과 총론 KMLE</div>
+        <div class="card-desc">2026 KMLE 외과 총론 문제 모음</div>
+        <div class="card-meta">
+          <span>📝 KMLE</span>
+          <span>📅 2026</span>
+        </div>
+        <div class="arrow-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- 08. 외과 각론 -->
+      <a class="quiz-card" href="08.html"
+         data-subject="외과 각론" data-questions="0"
+         style="--card-accent: #c084fc; --card-accent-dim: rgba(192,132,252,0.14);">
+        <div class="card-header">
+          <div class="card-icon">🩹</div>
+          <span class="card-badge">외과 각론</span>
+        </div>
+        <div class="card-num">QUIZ · 08</div>
+        <div class="card-title">외과 각론 KMLE</div>
+        <div class="card-desc">2026 KMLE 외과 각론 문제 모음</div>
+        <div class="card-meta">
+          <span>📝 KMLE</span>
+          <span>📅 2026</span>
+        </div>
+        <div class="arrow-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- 09. 산과 -->
+      <a class="quiz-card" href="09.html"
+         data-subject="산과" data-questions="0"
+         style="--card-accent: #e879f9; --card-accent-dim: rgba(232,121,249,0.14);">
+        <div class="card-header">
+          <div class="card-icon">🤰</div>
+          <span class="card-badge">산과</span>
+        </div>
+        <div class="card-num">QUIZ · 09</div>
+        <div class="card-title">산과 KMLE</div>
+        <div class="card-desc">2026 KMLE 산과 문제 모음</div>
+        <div class="card-meta">
+          <span>📝 KMLE</span>
+          <span>📅 2026</span>
+        </div>
+        <div class="arrow-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- 10. 부인과 -->
+      <a class="quiz-card" href="10.html"
+         data-subject="부인과" data-questions="0"
+         style="--card-accent: #f472b6; --card-accent-dim: rgba(244,114,182,0.14);">
+        <div class="card-header">
+          <div class="card-icon">🌸</div>
+          <span class="card-badge">부인과</span>
+        </div>
+        <div class="card-num">QUIZ · 10</div>
+        <div class="card-title">부인과 KMLE</div>
+        <div class="card-desc">2026 KMLE 부인과 문제 모음</div>
+        <div class="card-meta">
+          <span>📝 KMLE</span>
+          <span>📅 2026</span>
+        </div>
+        <div class="arrow-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- 11. 소아과 총론 -->
+      <a class="quiz-card" href="11.html"
+         data-subject="소아과 총론" data-questions="0"
+         style="--card-accent: #c084fc; --card-accent-dim: rgba(192,132,252,0.14);">
+        <div class="card-header">
+          <div class="card-icon">👶</div>
+          <span class="card-badge">소아 총론</span>
+        </div>
+        <div class="card-num">QUIZ · 11</div>
+        <div class="card-title">소아과 총론 KMLE</div>
+        <div class="card-desc">2026 KMLE 소아과 총론 문제 모음</div>
+        <div class="card-meta">
+          <span>📝 KMLE</span>
+          <span>📅 2026</span>
+        </div>
+        <div class="arrow-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- 12. 소아과 각론 I -->
+      <a class="quiz-card" href="12.html"
+         data-subject="소아과 각론 I" data-questions="0"
+         style="--card-accent: #a78bfa; --card-accent-dim: rgba(167,139,250,0.14);">
+        <div class="card-header">
+          <div class="card-icon">🧒</div>
+          <span class="card-badge">소아 각론 I</span>
+        </div>
+        <div class="card-num">QUIZ · 12</div>
+        <div class="card-title">소아과 각론 I KMLE</div>
+        <div class="card-desc">2026 KMLE 소아과 각론 I 문제 모음</div>
+        <div class="card-meta">
+          <span>📝 KMLE</span>
+          <span>📅 2026</span>
+        </div>
+        <div class="arrow-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- 13. 소아과 각론 II -->
+      <a class="quiz-card" href="13.html"
+         data-subject="소아과 각론 II" data-questions="0"
+         style="--card-accent: #818cf8; --card-accent-dim: rgba(129,140,248,0.14);">
+        <div class="card-header">
+          <div class="card-icon">👦</div>
+          <span class="card-badge">소아 각론 II</span>
+        </div>
+        <div class="card-num">QUIZ · 13</div>
+        <div class="card-title">소아과 각론 II KMLE</div>
+        <div class="card-desc">2026 KMLE 소아과 각론 II 문제 모음</div>
+        <div class="card-meta">
+          <span>📝 KMLE</span>
+          <span>📅 2026</span>
+        </div>
+        <div class="arrow-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- 14. 정신과 -->
+      <a class="quiz-card" href="14.html"
+         data-subject="정신과" data-questions="0"
+         style="--card-accent: #a78bfa; --card-accent-dim: rgba(167,139,250,0.14);">
+        <div class="card-header">
+          <div class="card-icon">🧠</div>
+          <span class="card-badge">정신과</span>
+        </div>
+        <div class="card-num">QUIZ · 14</div>
+        <div class="card-title">정신과 KMLE</div>
+        <div class="card-desc">2026 KMLE 정신과 문제 모음</div>
+        <div class="card-meta">
+          <span>📝 KMLE</span>
+          <span>📅 2026</span>
+        </div>
+        <div class="arrow-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- 15. 마이너 -->
+      <a class="quiz-card" href="15.html"
+         data-subject="마이너" data-questions="0"
+         style="--card-accent: #d8b4fe; --card-accent-dim: rgba(216,180,254,0.14);">
+        <div class="card-header">
+          <div class="card-icon">🩺</div>
+          <span class="card-badge">마이너</span>
+        </div>
+        <div class="card-num">QUIZ · 15</div>
+        <div class="card-title">마이너 KMLE</div>
+        <div class="card-desc">2026 KMLE 마이너 문제 모음</div>
+        <div class="card-meta">
+          <span>📝 KMLE</span>
+          <span>📅 2026</span>
+        </div>
+        <div class="arrow-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- 16. 예방의학 -->
+      <a class="quiz-card" href="16.html"
+         data-subject="예방의학" data-questions="0"
+         style="--card-accent: #c084fc; --card-accent-dim: rgba(192,132,252,0.14);">
+        <div class="card-header">
+          <div class="card-icon">🛡️</div>
+          <span class="card-badge">예방의학</span>
+        </div>
+        <div class="card-num">QUIZ · 16</div>
+        <div class="card-title">예방의학 KMLE</div>
+        <div class="card-desc">2026 KMLE 예방의학 문제 모음</div>
+        <div class="card-meta">
+          <span>📝 KMLE</span>
+          <span>📅 2026</span>
+        </div>
+        <div class="arrow-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- 17. 의료법규 -->
+      <a class="quiz-card" href="17.html"
+         data-subject="의료법규" data-questions="0"
+         style="--card-accent: #818cf8; --card-accent-dim: rgba(129,140,248,0.14);">
+        <div class="card-header">
+          <div class="card-icon">⚖️</div>
+          <span class="card-badge">의료법규</span>
+        </div>
+        <div class="card-num">QUIZ · 17</div>
+        <div class="card-title">의료법규 KMLE</div>
+        <div class="card-desc">2026 KMLE 의료법규 문제 모음</div>
+        <div class="card-meta">
+          <span>📝 KMLE</span>
+          <span>📅 2026</span>
+        </div>
+        <div class="arrow-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- ===== 여기에 새 퀴즈 카드를 추가하세요 ===== -->
+
+      <div class="empty-state" id="emptyState">
+        검색 결과가 없습니다.
+      </div>
+    </div>
+
+    <footer>
+      2026 KMLE QUIZ ARCHIVE · Built for GitHub Pages
+    </footer>
+  </div>
+
+  <script>
+    /* ============================================= */
+    /* ============ PASSWORD LOCK LOGIC ============ */
+    /* ============================================= */
+    (function() {
+      const PASSWORD = 'Qldir';
+      const STORAGE_KEY = 'kmle_archive_unlocked_v1';
+
+      const body = document.body;
+      const lock = document.getElementById('lockScreen');
+      const input = document.getElementById('lockInput');
+      const btn = document.getElementById('lockBtn');
+      const err = document.getElementById('lockErr');
+
+      // Check if already unlocked in this session
+      let unlocked = false;
+      try {
+        unlocked = sessionStorage.getItem(STORAGE_KEY) === '1';
+      } catch (e) { /* sessionStorage might be blocked */ }
+
+      if (unlocked) {
+        openSite();
+      } else {
+        // Focus input after a brief animation delay
+        setTimeout(() => input && input.focus(), 300);
+      }
+
+      function openSite() {
+        body.classList.remove('locked');
+        lock.classList.add('hidden');
+        setTimeout(() => { lock.style.display = 'none'; }, 550);
+      }
+
+      function tryUnlock() {
+        const val = input.value.trim();
+        if (val === PASSWORD) {
+          try { sessionStorage.setItem(STORAGE_KEY, '1'); } catch (e) {}
+          err.classList.remove('visible');
+          openSite();
+        } else {
+          err.classList.add('visible');
+          input.classList.remove('shake');
+          // force reflow to replay animation
+          void input.offsetWidth;
+          input.classList.add('shake');
+          input.select();
+        }
+      }
+
+      btn.addEventListener('click', tryUnlock);
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') tryUnlock();
+      });
+      input.addEventListener('input', () => {
+        if (err.classList.contains('visible')) err.classList.remove('visible');
+      });
+    })();
+
+    /* ============================================= */
+    /* =========== ARCHIVE INDEX LOGIC ============= */
+    /* ============================================= */
+
+    // ===== 자동 통계 계산 =====
+    function updateStats() {
+      const cards = document.querySelectorAll('.quiz-card');
+      const subjects = new Set();
+      let totalQ = 0;
+
+      cards.forEach(card => {
+        subjects.add(card.dataset.subject);
+        totalQ += parseInt(card.dataset.questions) || 0;
+      });
+
+      document.getElementById('totalQuizzes').textContent = cards.length;
+      document.getElementById('totalSubjects').textContent = subjects.size;
+      document.getElementById('totalQuestions').textContent = totalQ;
+    }
+
+    // ===== 자동 필터 버튼 생성 =====
+    function buildFilters() {
+      const cards = document.querySelectorAll('.quiz-card');
+      const subjects = [];
+      cards.forEach(card => {
+        if (!subjects.includes(card.dataset.subject)) subjects.push(card.dataset.subject);
+      });
+
+      const container = document.getElementById('filterBtns');
+      subjects.forEach(subject => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn';
+        btn.dataset.filter = subject;
+        btn.textContent = subject;
+        container.appendChild(btn);
+      });
+    }
+
+    // ===== 필터 기능 =====
+    document.getElementById('filterBtns').addEventListener('click', e => {
+      if (!e.target.classList.contains('filter-btn')) return;
+
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+
+      const filter = e.target.dataset.filter;
+      let visibleCount = 0;
+
+      document.querySelectorAll('.quiz-card').forEach(card => {
+        const match = filter === 'all' || card.dataset.subject === filter;
+        card.style.display = match ? '' : 'none';
+        if (match) visibleCount++;
+      });
+
+      document.getElementById('emptyState').classList.toggle('visible', visibleCount === 0);
+    });
+
+    // ===== 검색 기능 =====
+    document.getElementById('searchInput').addEventListener('input', e => {
+      const query = e.target.value.toLowerCase();
+      let visibleCount = 0;
+
+      // 검색 시 필터 초기화
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector('[data-filter="all"]').classList.add('active');
+
+      document.querySelectorAll('.quiz-card').forEach(card => {
+        const text = card.textContent.toLowerCase();
+        const match = text.includes(query);
+        card.style.display = match ? '' : 'none';
+        if (match) visibleCount++;
+      });
+
+      document.getElementById('emptyState').classList.toggle('visible', visibleCount === 0);
+    });
+
+    // 초기화
+    buildFilters();
+    updateStats();
+  </script>
+
+</body>
+</html>
